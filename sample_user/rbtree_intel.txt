@@ -1,0 +1,51 @@
+
+rbtree.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <new_rbtree>:
+   0:	f3 0f 1e fa          	endbr64 
+   4:	48 83 ec 08          	sub    rsp,0x8
+   8:	be 10 00 00 00       	mov    esi,0x10
+   d:	bf 01 00 00 00       	mov    edi,0x1
+  12:	e8 00 00 00 00       	call   17 <new_rbtree+0x17>
+  17:	48 83 c4 08          	add    rsp,0x8
+  1b:	c3                   	ret    
+
+000000000000001c <delete_rbtree>:
+  1c:	f3 0f 1e fa          	endbr64 
+  20:	48 83 ec 08          	sub    rsp,0x8
+  24:	e8 00 00 00 00       	call   29 <delete_rbtree+0xd>
+  29:	48 83 c4 08          	add    rsp,0x8
+  2d:	c3                   	ret    
+
+000000000000002e <rbtree_insert>:
+  2e:	f3 0f 1e fa          	endbr64 
+  32:	48 8b 07             	mov    rax,QWORD PTR [rdi]
+  35:	c3                   	ret    
+
+0000000000000036 <rbtree_find>:
+  36:	f3 0f 1e fa          	endbr64 
+  3a:	48 8b 07             	mov    rax,QWORD PTR [rdi]
+  3d:	c3                   	ret    
+
+000000000000003e <rbtree_min>:
+  3e:	f3 0f 1e fa          	endbr64 
+  42:	48 8b 07             	mov    rax,QWORD PTR [rdi]
+  45:	c3                   	ret    
+
+0000000000000046 <rbtree_max>:
+  46:	f3 0f 1e fa          	endbr64 
+  4a:	48 8b 07             	mov    rax,QWORD PTR [rdi]
+  4d:	c3                   	ret    
+
+000000000000004e <rbtree_erase>:
+  4e:	f3 0f 1e fa          	endbr64 
+  52:	b8 00 00 00 00       	mov    eax,0x0
+  57:	c3                   	ret    
+
+0000000000000058 <rbtree_to_array>:
+  58:	f3 0f 1e fa          	endbr64 
+  5c:	b8 00 00 00 00       	mov    eax,0x0
+  61:	c3                   	ret    
