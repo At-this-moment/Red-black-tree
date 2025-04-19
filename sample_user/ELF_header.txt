@@ -1,0 +1,102 @@
+rbtree.o는 그냥 바이너리 데이터가 아니라…
+ELF (Executable and Linkable Format)
+포맷을 따르는 객체 파일(.o)임.
+
+그래서 이 파일의 맨 앞 64바이트 정도에는 ELF 헤더가 항상 포함.
+
+
+readelf -h rbtree.o > header.txt로 만든 것
+즉 rbtree.o 이 바이너리 파일이 어떤 구조로 만들어졌는지 알려줌
+이 파일로 알 수 있는 것
+= 이 파일이 64비트인지, 실행가능한지, 어느 CPU용인지 등
+
+ELF Header:
+  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 
+  //ELF 파일임을 나타내는 시그니처 값
+  //0x7F 45 4C 46 → 아스키로 0x7F 'E' 'L' 'F' = "ELF"
+
+  Class:                             ELF64
+  //Executable and Linkable Format, 리눅스에서 사용하는 바이너리 파일 형식, ELF64 = 64비트 파일
+
+  Data:                              2's complement, little endian
+  //2의 보수, 리틀엔디안으로 수 표현
+  //엔디언 어원: 『걸리버 여행기(Gulliver's Travels)』에서 유래
+  //조너선 스위프트(Jonathan Swift)의 풍자 소설 걸리버 여행기에 보면
+  //계란을 큰 쪽(Big End)부터 깰 것이냐, 작은 쪽(Little End)부터 깰 것이냐를 두고
+  //두 나라(릴리퍼트vs블레퍼스큐)가 전쟁까지 벌이는 장면이 나옴
+  //여기서 Big-Endians(큰 쪽부터 깨는 사람) vs Little-Endians(작은 쪽부터 깨는 사람)이라는 표현이 나오는데
+  //거기서 따온 은유적 표현
+
+  //MSB (Most Significant Byte): '최상위 바이트'라는 뜻으로, 
+  //가장 큰 자릿수를 담당하는 바이트를 지칭하는 말이다. 예를 들어, 0x12345678에서는 12를 담고 있는 바이트가 MSB이다.
+  
+  //LSB (Least Significant Byte): '최하위 바이트'라는 뜻으로,
+  //가장 작은 자릿수를 담당하는 바이트를 지칭하는 말이다. 예를 들어, 0x12345678에서는 78을 담고 있는 바이트가 LSB이다.
+  
+
+  //big-endian
+  //MSB가 가장 앞쪽에 오는 저장 방법. 예를 들어, 메모리에 0x12345678을 저장한다고 하면,
+  //주소 | 값
+  //0x00 | 0x12
+  //0x01 | 0x34
+  //0x02 | 0x56
+  //0x03 | 0x78
+
+
+  //little-endian
+  //LSB가 가장 앞쪽에 오는 저장 방법. 예를 들어, 메모리에 0x12345678을 저장한다고 하면,
+  //주소 | 값
+  //0x00 | 0x78
+  //0x01 | 0x56
+  //0x02 | 0x34
+  //0x03 | 0x12
+
+  //리틀엔디언은 하위 바이트부터 앞쪽에 저장하기 때문에,
+  //8비트나 16비트처럼 작은 타입으로 캐스팅하거나 하위 비트를 참조할 때
+  //추가 주소 계산 없이 빠르게 접근할 수 있어서 속도와 구현 측면에서 유리
+
+  
+
+  Version:                           1 (current)
+  //ELF 포맷의 버전 (현재는 항상 1)
+
+  OS/ABI:                            UNIX - System V
+  
+  ABI Version:                       0
+
+  Type:                              REL (Relocatable file)
+  //이 파일은 링크 전에 사용하는 중간 결과물이라는 뜻
+  //리 로케이터블 = 재배치 가능
+
+  Machine:                           Advanced Micro Devices X86-64
+  //타겟 아키텍쳐 64비트 x86 (AMD64/Intel64), AMD가 처음 제안함 (그래서 이름에 AMD가 붙음)
+  //기존 32비트 x86 아키텍처를 확장해서 64비트 주소 공간 제공
+  //대부분의 리눅스 바이너리는 x86-64 기반
+
+  Version:                           0x1
+  
+  Entry point address:               0x0
+  //프로그램이 실행될 때 처음 시작할 주소, REL 파일은 실행파일이 아니기 때문에 0
+
+  Start of program headers:          0 (bytes into file)
+  //이건 실행파일이 아니라서 프로그램 헤더도 없음
+
+  Start of section headers:          1416 (bytes into file)
+  //각 섹션 헤더의 크기 (64바이트)
+
+  Flags:                             0x0
+
+  Size of this header:               64 (bytes)
+  //ELF 헤더 자체의 크기 = 항상 64바이트 (64비트 ELF 기준)
+
+  Size of program headers:           0 (bytes)
+  //프로그램 헤더가 없으므로 크기도 0
+
+  Number of program headers:         0
+
+  Size of section headers:           64 (bytes)
+
+  Number of section headers:         13
+  //이 파일에는 .text, .data, .bss, .symtab 등 13개의 섹션이 있음
+
+  Section header string table index: 12

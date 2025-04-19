@@ -9,3 +9,27 @@
 0000000000000046 T rbtree_max
 000000000000003e T rbtree_min
 0000000000000058 T rbtree_to_array
+
+
+기호 | 의미
+T | 함수, .text 섹션에 정의됨 (정의된 전역 함수)
+U | 정의되지 않음(Undefined) → 다른 오브젝트/라이브러리에서 가져와야 함
+B | .bss 섹션 (초기화되지 않은 전역 변수)
+D | .data 섹션 (초기화된 전역 변수)
+R | .rodata 섹션 (읽기 전용 데이터)
+W | Weak symbol
+
+
+
+심볼 이름 | 상태 | 의미
+_GLOBAL_OFFSET_TABLE_ | U | 실행 시 동적 주소 변환에 필요
+calloc, free | U | 외부 함수 (libc 등에서 링크 예정)
+delete_rbtree | T | 직접 구현한 전역 함수
+rbtree_* 시리즈 | T | 너가 직접 만든 레드블랙트리 함수들
+
+
+이걸 통해 뭘 알 수 있냐면면
+우리의 .o 파일엔 rbtree_* 함수들이 실제로 정의되어 있고
+
+calloc, free 같은 외부 함수들은 아직 링크되지 않은 상태
+→ 실행파일 만들 때 libc 등과 링커(ld) 가 연결시켜줄 것임
