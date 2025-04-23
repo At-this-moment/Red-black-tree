@@ -7,7 +7,7 @@ typedef enum { RBTREE_RED, RBTREE_BLACK } color_t;
 
 typedef int key_t;
 
-typedef struct node_t {
+typedef struct node_t {//구조체 정이
   color_t color;
   key_t key;
   struct node_t *parent, *left, *right;
